@@ -46,20 +46,24 @@ class LED_bulb_pd(APIView):
         except ObjectDoesNotExist:
             raise Http404
 
-    def get(self, request, id, format = None):
+    def get(self, request, format = None):
+        id = request.data.get('id')
         led_bulb = self.get_object(id)
         serializer = LED_bulbSerializer(led_bulb)
         return Response(serializer.data)
 
-    def put(self, request, id, format = None):
-        led_bulb =self.get_object(id)
+    def put(self, request, format = None):
+        # print("Type is ", type(id), id, request.data.get('id') )
+        id = request.data.get('id')
+        led_bulb =self.get_object( id )
         serializer = LED_bulbSerializer(led_bulb, data = request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         # print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    def delete(self, request, id, format = None):
+    def delete(self, request, format = None):
+        id = request.data.get('id')
         led_bulb = self.get_object(id)
         led_bulb.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
