@@ -10,6 +10,7 @@ class Customer(models.Model):
    address=models.CharField(max_length=500,null=False,blank=False)
    finger_print=models.BinaryField(null=False,blank=False)
    
+
    def __str__(self):
        return self.name
     
@@ -27,7 +28,7 @@ class Wallet(models.Model):
    money=models.IntegerField(null=False,blank=False)
    
    def __str__(self):
-       return self.id
+       return str(self.uuid)
 
 class LED_bulb(models.Model):
     state = models.BooleanField(default = False,null=False,blank=False)
@@ -55,5 +56,12 @@ class Mappingstation(models.Model):
         return self.all_station_name
 
   
+class Transaction(models.Model):
+    uuid=models.ForeignKey(Customer, on_delete=models.CASCADE,null=False,blank=False)
+    source=models.ForeignKey(Mappingstation, on_delete=models.CASCADE,max_length=20,null=False,blank=False)
+    destination=models.CharField(max_length=20,null=False,blank=False)
+    fare=models.IntegerField(null=False,blank=False)
+    time=models.DateTimeField(auto_now=True,null=False,blank=False)
+    status=models.BooleanField(default=False, null=False,blank=False)
 
-
+ 

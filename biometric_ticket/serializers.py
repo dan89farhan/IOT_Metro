@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Customer, Fingerprint_device, Wallet, LED_bulb, Mappingstation
+from .models import Customer, Fingerprint_device, Wallet, LED_bulb, Mappingstation, Transaction
 
 # LED Serializer For Api
 
@@ -38,3 +38,11 @@ class MappingstationSerializer(serializers.ModelSerializer):
         fields = '__all__'
         verbose_name = 'Mappingstation'
         verbose_name_plural = 'Mappingstations'
+
+class TransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+
+        fields = ('uuid','source','destination','fare','status')
+        verbose_name = 'Transaction'
+        verbose_name_plural = 'Transactions'

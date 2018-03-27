@@ -169,3 +169,19 @@ def led_bulb_detail(request, id, format = None):
     elif request.method == 'DELETE':
         led_bulb.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+        
+
+class Transaction_uuid(APIView):
+    def get_object(self, uuid):
+        try:
+            return Transaction_uuid.objects.get(uuid = uuid)
+        except ObjectDoesNotExist:
+            raise Http404
+    
+    def get(self, request, uuid, format = None):
+        
+        Transaction = self.get_object(uuid)
+        serializer = Fingerprint_deviceSerializer(Transaction, many = False)
+        
+        return Response(serializer.data['location'], status = status.HTTP_200_OK)

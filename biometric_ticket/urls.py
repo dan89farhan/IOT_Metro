@@ -15,9 +15,9 @@ urlpatterns = [
     path('validateCustomer/<uuid>', Customer_UUID.as_view(), name = 'validateCustomer' ),
 
     # Urls for Fingerprint_device api
-    path('Fingerprint_device_location/<fid>', Fingerprint_device_location.as_view(), name = 'Fingerprint_device_location' ),
+    path('  /<fid>', Fingerprint_device_location.as_view(), name = 'Fingerprint_device_location' ),
     
     # Urls for MappingStation api
     path('Mappingstation_price/<source>/<destination>', Mappingstation_price.as_view(), name = 'Mappingstation_price'),
 ]
-urlpatterns = format_suffix_patterns(urlpatterns)
+urlpatterns = format_suffix_patterns(urlpatterns)           
