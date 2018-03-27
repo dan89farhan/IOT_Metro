@@ -19,5 +19,6 @@ from django.urls import include, path
 urlpatterns = [
     # path('polls/', include('biometric_ticket.urls')),
     path('api-auth/', include('rest_framework.urls')),
+    path('', include('biometric_ticket.urls')),
     path('admin/', admin.site.urls),
 ]

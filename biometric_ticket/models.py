@@ -30,5 +30,6 @@ class Wallet(models.Model):
 
 class LED_bulb(models.Model):
     state = models.BooleanField(default = False)
+    
     def __str__(self):
-       return self.state
+       return 'state'
