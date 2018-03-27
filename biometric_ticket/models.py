@@ -19,7 +19,7 @@ class Fingerprint_device(models.Model):
    location = models.CharField(max_length=100,null=False,blank=False)
    fid=models.IntegerField(primary_key=True,null=False,blank=False)
    def __str__(self):
-       return self.fid
+       return str(self.fid)
 
 
 class Wallet(models.Model):
