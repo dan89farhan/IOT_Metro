@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from rest_framework import generics, permissions, status
 from rest_framework.parsers import JSONParser
-from .models import LED_bulb
+from .models import LED_bulb, Customer, Fingerprint_device
 from rest_framework.decorators import api_view
 
 
@@ -14,7 +14,7 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .serializers import LED_bulbSerializer
+from .serializers import LED_bulbSerializer, CustomerSerializer, Fingerprint_deviceSerializer
 
 def index(request):
     return HttpResponse("Hello, world. You're at the index.")
@@ -67,6 +67,49 @@ class LED_bulb_pd(APIView):
         led_bulb = self.get_object(id)
         led_bulb.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# Customer get UUID
+
+class Customer_UUID(APIView):
+
+    def get_object(self, uuid):
+        try:
+            return Customer.objects.get(uuid = uuid)
+        except ObjectDoesNotExist:
+            raise Http404
+    
+    def get(self, request, uuid, format = None):
+        # uuid = request.data.get('uuid')
+        customer = self.get_object(uuid)
+        serializer = CustomerSerializer(customer, many = False)
+        # print(serializer.data['uuid'])
+        return Response(serializer.data['uuid'], status = status.HTTP_200_OK)
+
+
+# Fingerprint_device get Location
+
+class Fingerprint_device_location(APIView):
+    def get_object(self, fid):
+        try:
+            return Fingerprint_device.objects.get(fid = fid)
+        except ObjectDoesNotExist:
+            raise Http404
+    
+    def get(self, request, fid, format = None):
+        
+        location = self.get_object(fid)
+        serializer = Fingerprint_deviceSerializer(location, many = False)
+        
+        return Response(serializer.data['location'], status = status.HTTP_200_OK)
+
+
+
+
+
+
+
+
 
 @api_view(['GET', 'POST'])
 def led_bulb_list(request, format = None):
