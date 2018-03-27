@@ -49,7 +49,10 @@ class Mappingstation(models.Model):
     def get_price(self,source,destination):
         self.source=source
         self.destination=destination
-        return Mappingstation.objects.filter(destination__all_staion=source)
+        return Mappingstation.objects.filter(destination__all_station_name=source)
+
+    def __str__(self):
+        return self.all_station_name
 
   
 

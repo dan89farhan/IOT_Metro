@@ -1,6 +1,6 @@
 from django.urls import path, re_path
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import LED_bulbList, LED_bulb_pd, Customer_UUID, Fingerprint_device_location
+from .views import LED_bulbList, LED_bulb_pd, Customer_UUID, Fingerprint_device_location, Mappingstation_price
 from biometric_ticket import views
 
 urlpatterns = [
@@ -16,5 +16,8 @@ urlpatterns = [
 
     # Urls for Fingerprint_device api
     path('Fingerprint_device_location/<fid>', Fingerprint_device_location.as_view(), name = 'Fingerprint_device_location' ),
+    
+    # Urls for MappingStation api
+    path('Mappingstation_price/<source>/<destination>', Mappingstation_price.as_view(), name = 'Mappingstation_price'),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)

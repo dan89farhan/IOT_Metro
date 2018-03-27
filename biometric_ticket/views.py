@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from rest_framework import generics, permissions, status
 from rest_framework.parsers import JSONParser
-from .models import LED_bulb, Customer, Fingerprint_device
+from .models import LED_bulb, Customer, Fingerprint_device, Mappingstation
 from rest_framework.decorators import api_view
 
 
@@ -14,7 +14,7 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .serializers import LED_bulbSerializer, CustomerSerializer, Fingerprint_deviceSerializer
+from .serializers import LED_bulbSerializer, CustomerSerializer, Fingerprint_deviceSerializer, MappingstationSerializer
 
 def index(request):
     return HttpResponse("Hello, world. You're at the index.")
@@ -103,6 +103,28 @@ class Fingerprint_device_location(APIView):
         
         return Response(serializer.data['location'], status = status.HTTP_200_OK)
 
+
+
+# Mappingstation get price
+
+class Mappingstation_price(APIView):
+    def get_object(self, source, destination):
+        try:
+            return Mappingstation.objects.defer(destination).filter(all_station_name = source)
+            # .values('ghatkopar')
+            # return Mappingstation.objects.all()
+        except ObjectDoesNotExist:
+            raise Http404
+    
+    def get(self, request, source, destination, format = None):
+        
+        # print("Line 120 ",source, destination)
+        price = self.get_object(source, destination)
+        
+        serializer = MappingstationSerializer(price, many = True)
+        print(serializer.data[0][destination])
+        
+        return Response(serializer.data[0][destination], status = status.HTTP_200_OK)
 
 
 
