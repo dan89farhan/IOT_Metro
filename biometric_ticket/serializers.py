@@ -38,7 +38,7 @@ class MappingstationSerializer(serializers.ModelSerializer):
         fields = '__all__'
         verbose_name = 'Mappingstation'
         verbose_name_plural = 'Mappingstations'
-
+# Transaction Serializer For  Transaction Api
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction

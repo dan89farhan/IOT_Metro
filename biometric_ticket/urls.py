@@ -1,6 +1,6 @@
 from django.urls import path, re_path
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import LED_bulbList, LED_bulb_pd, Customer_UUID, Fingerprint_device_location, Mappingstation_price, Customer_status_uuid, Wallet_PP, Wallet_money
+from .views import LED_bulbList, LED_bulb_pd, Customer_UUID, Fingerprint_device_location, Mappingstation_price,Create_Transaction, Customer_status_uuid, Wallet_PP, Wallet_money, Fingerprint_device_status,Update_Transaction
 from biometric_ticket import views
 
 
@@ -17,14 +17,24 @@ urlpatterns = [
 
     path('validateCustomer/<uuid>', Customer_UUID.as_view(), name = 'validateCustomer' ),
 
-    # Urls for Fingerprint_device api
-    path('  /<fid>', Fingerprint_device_location.as_view(), name = 'Fingerprint_device_location' ),
+    # Urls for Fingerprint_device location
+    path('fingerprintdevice/location', Fingerprint_device_location.as_view(), name = 'Fingerprint_device_location' ),
+
+
+      # Urls for Fingerprint_device status
+    path('fingerprintdevice/status', Fingerprint_device_status.as_view(), name = 'Fingerprint_device_status' ),
     
     # Urls for MappingStation api
-    path('Mappingstation_price/<source>/<destination>', Mappingstation_price.as_view(), name = 'Mappingstation_price'),
+    path('mappingstation_price/<source>/<destination>', Mappingstation_price.as_view(), name = 'Mappingstation_price'),
 
     #url for customer status and uuid
-    path('customerstatus', Customer_status_uuid.as_view(), name = 'customerstatus' ),   
+    path('customerstatus', Customer_status_uuid.as_view(), name = 'customerstatus' ), 
+    #url for create transaction 
+     path('transaction/create', Create_Transaction.as_view(), name = 'createtransaction' ),  
+
+
+     #url for create transaction 
+     path('transaction/update', Update_Transaction.as_view(), name = 'updatetransaction' ),   
 
 
     #url for fingerprint

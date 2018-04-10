@@ -11,6 +11,7 @@ class Customer(models.Model):
    status=models.IntegerField(null=False,blank=False)
    finger_print=models.BinaryField(null=False,blank=False)
    
+   
 
    def __str__(self):
        return str(self.uuid)
@@ -20,12 +21,13 @@ class Customer(models.Model):
 class Fingerprint_device(models.Model):
    location = models.CharField(max_length=100,null=False,blank=False)
    fid=models.IntegerField(primary_key=True,null=False,blank=False)
+   finger_print_status=models.BooleanField(null=False,blank=False)
    def __str__(self):
        return str(self.fid)
 
 
 class Wallet(models.Model):
-   uuid=models.ForeignKey(Customer, on_delete=models.CASCADE,null=False,blank=False)
+   uuid=models.OneToOneField(Customer, on_delete=models.CASCADE,null=False,blank=False)
    money=models.IntegerField(null=False,blank=False,default=100)
    
    def __str__(self):
@@ -59,9 +61,9 @@ class Mappingstation(models.Model):
   
 class Transaction(models.Model):
     uuid=models.ForeignKey(Customer, on_delete=models.CASCADE,null=False,blank=False)
-    source=models.CharField(max_length=20,null=False,blank=False)
-    destination=models.CharField(max_length=20,null=False,blank=False)
-    fare=models.IntegerField(null=False,blank=False)
+    source=models.CharField(max_length=20,null=True,blank=True)
+    destination=models.CharField(max_length=20,null=True,blank=True)
+    fare=models.IntegerField(null=True,blank=True)
     time=models.DateTimeField(auto_now=True,null=False,blank=False)
     status=models.BooleanField(default=False, null=False,blank=False)
 
