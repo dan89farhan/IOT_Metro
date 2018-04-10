@@ -65,6 +65,6 @@ class Transaction(models.Model):
     destination=models.CharField(max_length=20,null=True,blank=True)
     fare=models.IntegerField(null=True,blank=True)
     time=models.DateTimeField(auto_now=True,null=False,blank=False)
-    status=models.BooleanField(default=False, null=False,blank=False)
+    status=models.IntegerField(default = 0, null=False,blank=False)
 
  

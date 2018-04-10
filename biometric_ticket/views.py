@@ -255,7 +255,10 @@ class Wallet_PP(APIView) :
         
         
         wallet =self.get_object_by_uuid( uuid )
-        serializer = WalletSerializer(wallet, data = request.data)
+
+        # wallet.money = 
+        money = wallet.money - int(request.data.get('money'))
+        serializer = WalletSerializer(wallet, data = {"uuid": request.data.get('uuid'), 'money': money})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status = status.HTTP_200_OK)
@@ -282,13 +285,6 @@ class Wallet_PP(APIView) :
 
 #create transaction
 class Create_Transaction(APIView):
-    
-    
-
-        
-
-        
-    
 
     def post(self, request, format = None):
         
@@ -297,13 +293,36 @@ class Create_Transaction(APIView):
             serializer.save()
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Get status of uuid
+
+class Get_Transaction_Status(APIView):
+    
+    def get_object_by_uuid(self, uuid):
+        try:
+            return Transaction.objects.defer('status').filter(uuid = uuid).last()
+           
+        except ObjectDoesNotExist:
+            raise Http404
+
+    def get(self, request, uuid, format = None):
+
+        transaction = self.get_object_by_uuid(uuid)
+        # print("Transaction object is ", transaction)
+        serializer = TransactionSerializer(transaction, many = False)
+        print("Transaction is ", serializer.data['status'])
+        if not serializer.data:
+            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+        if serializer.data['status'] is None:
+            return Response( {'status': None} , status = status.HTTP_200_OK )
+        return Response(serializer.data, status = status.HTTP_200_OK)
        
 
 
 class Update_Transaction(APIView):
     def get_object_by_uuid(self, uuid):
         try:
-            return Transaction.objects.get(uuid=uuid)
+            return Transaction.objects.filter(uuid=uuid).last()
            
         except ObjectDoesNotExist:
             raise Http404
@@ -312,7 +331,7 @@ class Update_Transaction(APIView):
         uuid= request.data.get('uuid')
         
         
-        transaction =self.get_object_by_uuid( uuid )
+        transaction = self.get_object_by_uuid( uuid )
         serializer = TransactionSerializer(transaction, data = request.data)
         if serializer.is_valid():
             serializer.save()
