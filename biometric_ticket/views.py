@@ -340,6 +340,30 @@ class Update_Transaction(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+# Transaction Api for Mobile App
+class Get_Transaction_Details(APIView):
+    
+    def get_object_by_uuid(self, uuid):
+        try:
+            return Transaction.objects.filter(uuid = uuid)
+           
+        except ObjectDoesNotExist:
+            raise Http404
+
+    def get(self, request, uuid, format = None):
+
+        transaction = self.get_object_by_uuid(uuid)
+        # transaction = Transaction.objects.all()
+        print("Transaction object is ", transaction)
+        serializer = TransactionSerializer(transaction, many = True)
+        print("Transaction is ", serializer.data)
+        if not serializer.data:
+            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response(serializer.data, status = status.HTTP_200_OK)
+       
+
         
 
         

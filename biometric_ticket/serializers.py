@@ -40,6 +40,8 @@ class MappingstationSerializer(serializers.ModelSerializer):
         verbose_name_plural = 'Mappingstations'
 # Transaction Serializer For  Transaction Api
 class TransactionSerializer(serializers.ModelSerializer):
+
+    # customer = CustomerSerializer(read_only = True)
     class Meta:
         model = Transaction
 

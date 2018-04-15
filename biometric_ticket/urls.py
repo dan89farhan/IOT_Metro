@@ -1,6 +1,6 @@
 from django.urls import path, re_path
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import LED_bulbList, LED_bulb_pd, Customer_UUID, Fingerprint_device_location, Mappingstation_price,Create_Transaction, Customer_status_uuid, Wallet_PP, Wallet_money, Fingerprint_device_status,Update_Transaction, Get_Transaction_Status
+from .views import LED_bulbList, LED_bulb_pd, Customer_UUID, Fingerprint_device_location, Mappingstation_price,Create_Transaction, Customer_status_uuid, Wallet_PP, Wallet_money, Fingerprint_device_status,Update_Transaction, Get_Transaction_Status, Get_Transaction_Details
 from biometric_ticket import views
 
 
@@ -42,8 +42,14 @@ urlpatterns = [
     #url for fingerprint
     path('fingerprint',views.finger_html, name = 'abc'),
 
+    # url for wallet money info
     path('wallet/<uuid>',Wallet_money.as_view(), name = 'wallet'),
+
+    # url for wallet money update and create
     path('wallet_pp',Wallet_PP.as_view(), name = 'wallet'),
+
+    # url for transaction info
+    path('transactiondetails/<uuid>',Get_Transaction_Details.as_view(), name = 'transactiondetails'),
 
 
 
